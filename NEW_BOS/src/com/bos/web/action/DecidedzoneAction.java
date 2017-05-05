@@ -11,6 +11,8 @@ import cn.itcast.crm.domain.Customer;
 import com.bos.domain.Decidedzone;
 import com.bos.web.action.base.BaseAction;
 
+
+
 @Controller
 @Scope("prototype")
 public class DecidedzoneAction extends BaseAction<Decidedzone>{
@@ -38,6 +40,7 @@ public class DecidedzoneAction extends BaseAction<Decidedzone>{
 		
 		this.writePageBean2Json(pageBean, new String[]{"currentPage","detachedCriteria","pageSize","subareas","decidedzones"});
 		return NONE;
+
 	}
     
     /**
@@ -82,4 +85,6 @@ public class DecidedzoneAction extends BaseAction<Decidedzone>{
 	public void setCustomerIds(Integer[] customerIds) {
 		this.customerIds = customerIds;
 	}
+    
+    
 }

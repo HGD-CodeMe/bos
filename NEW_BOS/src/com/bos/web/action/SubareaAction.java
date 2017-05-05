@@ -126,7 +126,11 @@ public class SubareaAction extends BaseAction<Subarea>{
 		List<Subarea> list = subareaffService.finListNotAssociation();
 		//这里可以根据 页面的需要来排除不需的要数据
 		String[] excludes = new String[]{"decidedzone","region","endnum","startnum"};
+
 		this.writeList2Json(list, excludes);
+
+	
+
 		return NONE;
 	}
 	

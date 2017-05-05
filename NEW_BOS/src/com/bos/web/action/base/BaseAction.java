@@ -100,7 +100,11 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 		ServletActionContext.getResponse().getWriter().print(json);
 	}
 	
+
+
+
 	protected void writeList2Json(List list, String[] excludes) throws IOException {
+
 		// 将pagebean对象装换为json
 				JsonConfig jsonConfig = new JsonConfig();
 				jsonConfig.setExcludes(excludes);

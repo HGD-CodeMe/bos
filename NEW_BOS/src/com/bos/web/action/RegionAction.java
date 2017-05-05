@@ -114,7 +114,9 @@ public class RegionAction extends BaseAction<Region> {
 		
 		
 		String[] excludes = new String[]{"subareas"};
+
 		this.writeList2Json(list, excludes);
+
 		return NONE;
 	}
 	
