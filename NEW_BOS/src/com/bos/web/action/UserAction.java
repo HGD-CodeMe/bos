@@ -6,6 +6,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -30,9 +36,9 @@ public class UserAction extends BaseAction<User> {
 	public void setCheckcode(String checkcode) {
 		this.checkcode = checkcode;
 	}
-	public String login() {
-List<Customer> list = customerService.findnoassociationCustomers();		
-System.out.println(list);		
+	
+	/*public String login() {
+
 		//生成的验证码
 		String key = (String) ServletActionContext.getRequest().getSession().getAttribute("key");
 		
@@ -53,7 +59,46 @@ System.out.println(list);
 			return "login";
 		}
 		
+	}*/
+	
+	//使用shiro进行验证
+	public String login() {
+
+		//生成的验证码
+		String key = (String) ServletActionContext.getRequest().getSession().getAttribute("key");
+		
+		if(StringUtils.isNotBlank(checkcode) && checkcode.equals(key)) {
+			//获得用户对象
+			Subject subject = SecurityUtils.getSubject();
+			String password = model.getPassword();
+			password = MD5Utils.md5(password);
+			//构造一个用户名密码令牌
+			AuthenticationToken token = new UsernamePasswordToken(model.getUsername(),password);
+			
+			try {
+				subject.login(token);
+			} catch (UnknownAccountException e) {
+				e.printStackTrace();
+				this.addActionError("用户名不存在！");
+				return "login";
+			}catch (Exception e) {
+				e.printStackTrace();
+				this.addActionError("用户名或密码不正确！");
+				return "login";
+			}
+			//获取从认证对象中存储的user对象
+			User user = (User) subject.getPrincipal();
+			ServletActionContext.getRequest().getSession().setAttribute("loginUser", user);
+			return "home"; 
+		
+		}else {
+			this.addActionError("验证码错误！");
+			return "login";
+		}
+		
 	}
+	
+	
 	
 
 	/**

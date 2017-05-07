@@ -3,6 +3,8 @@ package com.bos.web.action;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -30,7 +32,7 @@ public class StaffAction extends BaseAction<Staff>{
 	public String pageQuery() throws IOException {
 		
 		staffService.pageQuery(pageBean);
-		this.writePageBean2Json(pageBean, new String[]{"currentPage","pageSize","detachedCriteria"});
+		this.writePageBean2Json(pageBean, new String[]{"currentPage","pageSize","detachedCriteria","decidedzones"});
 		
 		return NONE;
 	}
@@ -44,6 +46,8 @@ public class StaffAction extends BaseAction<Staff>{
 	 * 删除取派员，逻辑删除
 	 * @return
 	 */
+	@RequiresPermissions(value="staff")//执行当前方法需要具有staff权限
+	@RequiresRoles(value="abc") 
 	public String delete() {
 		
 		staffService.deleteBatch(ids);
@@ -74,7 +78,7 @@ public class StaffAction extends BaseAction<Staff>{
 	public String listajax() throws IOException {
 		
 		List<Staff> list = staffService.findListNotDelete();
-		String[] excludes = new String[]{"decidedzones","station"," standard","telephone"}; 
+		String[] excludes = new String[]{"decidedzones","station"," standard"}; 
 
 		this.writeList2Json(list, excludes);
 

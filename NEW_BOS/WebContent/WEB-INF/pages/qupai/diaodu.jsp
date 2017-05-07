@@ -27,6 +27,7 @@
 	src="${pageContext.request.contextPath }/js/easyui/locale/easyui-lang-zh_CN.js"
 	type="text/javascript"></script>
 <script type="text/javascript">
+	var id;
 	$(function() {
 		$("#grid").datagrid({
 			singleSelect : true,
@@ -35,8 +36,15 @@
 				text : '人工调度',
 				iconCls : 'icon-edit',
 				handler : function() {
-					// 弹出窗口
+					// 弹出窗口,需要判断是够选择一个订单
+				var rows = $("#grid").datagrid("getSelections");
+				if(rows.length == 1){
+					$("input[name=id]").val(rows[0].id);
 					$("#diaoduWindow").window('open');
+				}else{
+			        $.messager.alert("提示信息","请选择一个订单操作！","warning");
+		        }
+				
 				}
 			} ],
 			columns : [ [ {
@@ -64,15 +72,19 @@
 				title : '取件日期',
 				width : 100,
 				formatter : function(data, row, index) {
-					return data.replace("T", " ");
+					return data;
 				}
 			} ] ],
-			url : '${pageContext.request.contextPath}/noticebill_findnoassociations.action'
+			url : '${pageContext.request.contextPath}/noticebillAction_findnoassociations.action'
 		});
 
 		// 点击保存按钮，为通知单 进行分单 --- 生成工单
 		$("#save").click(function() {
-
+		  var v = $("#diaoduForm").form("validate");
+		  if(v){
+		       $("#diaoduForm").submit();
+		  }
+		   
 		});
 	});
 </script>
@@ -92,7 +104,7 @@
 			</div>
 		</div>
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form id="diaoduForm" method="post">
+			<form id="diaoduForm" action="${pageContext.request.contextPath}/noticebillAction_addassociations.action" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">人工调度</td>
@@ -106,7 +118,7 @@
 						<td>选择取派员</td>
 						<td><input class="easyui-combobox" required="true"
 							name="staff.id"
-							data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/staff_ajaxlist.action'" />
+							data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/staffAction_listajax.action'" />
 						</td>
 					</tr>
 				</table>

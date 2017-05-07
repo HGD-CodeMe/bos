@@ -1,6 +1,8 @@
 package com.bos.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * User entity. @author MyEclipse Persistence Tools
@@ -19,6 +21,8 @@ public class User implements java.io.Serializable {
 	private String station;
 	private String telephone;
 	private String remark;
+	private Set noticebills = new HashSet(0);
+	private Set roles = new HashSet(0);
 
 	// Constructors
 
@@ -120,6 +124,22 @@ public class User implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	public Set getNoticebills() {
+		return this.noticebills;
+	}
+
+	public void setNoticebills(Set noticebills) {
+		this.noticebills = noticebills;
+	}
+
+	public Set getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(Set roles) {
+		this.roles = roles;
 	}
 
 }
