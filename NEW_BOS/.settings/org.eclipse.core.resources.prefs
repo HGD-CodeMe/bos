@@ -1,6 +1,7 @@
-#Sat May 06 01:57:28 CST 2017
+#Thu May 25 01:20:38 CST 2017
 eclipse.preferences.version=1
 encoding//WebContent/js/easyui/locale/easyui-lang-zh_CN.js=UTF-8
+encoding//WebContent/json/admin.json=UTF-8
 encoding//WebContent/json/data.json=UTF-8
 encoding//src/com/bos/utils/FileUtils.java=UTF-8
 encoding//src/com/bos/utils/MD5Utils.java=UTF-8

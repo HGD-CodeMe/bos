@@ -166,7 +166,7 @@
 				console.info(rowData);
 				editIndex = undefined;
 				
-				 var url = "${pageContext.request.contextPath}/wokordermanageAction_add.action";
+				 var url = "${pageContext.request.contextPath}/workordermanageAction_add.action";
 				$.post(url,rowData,function(data) {
 					if(data == '1') {
 						$.messager.alert("提示信息","工作单信息录入成功！","info");

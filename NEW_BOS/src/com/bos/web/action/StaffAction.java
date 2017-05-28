@@ -31,6 +31,7 @@ public class StaffAction extends BaseAction<Staff>{
 	
 	public String pageQuery() throws IOException {
 		
+		//这里无论用哪个service都一样
 		staffService.pageQuery(pageBean);
 		this.writePageBean2Json(pageBean, new String[]{"currentPage","pageSize","detachedCriteria","decidedzones"});
 		

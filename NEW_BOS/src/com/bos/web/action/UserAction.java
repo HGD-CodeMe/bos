@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 
 import cn.itcast.crm.domain.Customer;
 
+import com.bos.domain.Function;
+import com.bos.domain.Role;
 import com.bos.domain.User;
 import com.bos.service.IUserService;
 import com.bos.utils.MD5Utils;
@@ -98,7 +100,14 @@ public class UserAction extends BaseAction<User> {
 		
 	}
 	
-	
+	//查询所欲角色信息
+	public String listajax() throws IOException {
+		
+		List<Role> list = roleService.findAll();
+		String[] excludes = new String[]{"functions","users"};
+		this.writeList2Json(list, excludes);
+		return NONE;
+	}
 	
 
 	/**
@@ -130,4 +139,34 @@ public class UserAction extends BaseAction<User> {
 		ServletActionContext.getResponse().getWriter().print(flag);
 		return NONE;
 	}
+	
+	
+
+	public String pageQuery() throws IOException
+	{
+		userService.pageQuery(pageBean);
+		this.writePageBean2Json(pageBean, new String[]{"currentPage","pageSize","detachedCriteria","noticebills","roles"});
+		return NONE;
+	}
+	
+	//接收角色数据
+	private String[] roleIds;
+	public String[] getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String[] roleIds) {
+		this.roleIds = roleIds;
+	}
+	
+	/**
+	 * 添加用户
+	 * @return
+	 */
+	public String add() {
+		
+		userService.save(model,roleIds);
+		return "list";
+	}
+	
 }
